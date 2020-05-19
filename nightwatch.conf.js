@@ -4,8 +4,8 @@ const minimist = require('minimist')
 const argv = minimist(process.argv)
 const workersNum = argv['workers'] || 1
 
-let username = process.env.SAUCE_USERNAME,
-    accessKey = process.env.SAUCE_ACCESS_KEY
+const username = process.env.SAUCE_USERNAME
+const accessKey = process.env.SAUCE_ACCESSKEY
 
 module.exports = {
     detailed_output: true,
@@ -24,15 +24,9 @@ module.exports = {
     ],
     globals_path: 'globals.js',
     selenium: {
-      start_process: false,
-      // server_path: selenium.path, //for local use
-      // port: 4444,
-      server_path: `https://${username}:${accessKey}@ondemand.eu-central-1.saucelabs.com`,
-      //port: 443, //for SAUCE LABS
-      log_path: '',
-      cli_args: {
-        'webdriver.chrome.driver': chromedriver.path,
-      }
+      server_path: selenium.path, //for local use
+      start_process: true,
+    
     },
   
     test_settings: {
@@ -61,6 +55,9 @@ module.exports = {
       'sauce-desktop-windows': {
         selenium_port: '80',
         selenium_host: 'ondemand.eu-central-1.saucelabs.com',
+        use_ssl: false,
+        username: username,
+        accessKey: accessKey,
         silent: true,
         screenshots: {
           enabled: true,
@@ -68,56 +65,19 @@ module.exports = {
           on_failure: true,
           on_error: true
         },
+         
+        proxy: {
+          host: "localhost",
+          port: "3128",
+          protocol: "http"
+        },
+
         desiredCapabilities: {
-          username: username,
-          accessKey: accessKey,
           browserName: 'chrome',
           platform: 'Windows 10',
-          version: "latest",
+          version: "72",
           'sauce:options': {
-            }
-        }
-      },
-
-      'sauce-desktop-linux': {
-        selenium_port: '80',
-        selenium_host: 'ondemand.eu-central-1.saucelabs.com',
-        silent: true,
-        screenshots: {
-          enabled: true,
-          path: 'screenshots/',
-          on_failure: true,
-          on_error: true
-        },
-        desiredCapabilities: {
-          username: username,
-          accessKey: accessKey,
-          browserName: 'chrome',
-          platform: 'Linux',
-          version: "latest",
-          "sauce:options": {
-            }
-        }
-      },
-
-      'sauce-desktop-macos': {
-        selenium_port: '80',
-        selenium_host: 'ondemand.eu-central-1.saucelabs.com',
-        silent: true,
-        screenshots: {
-          enabled: true,
-          path: 'screenshots/',
-          on_failure: true,
-          on_error: true
-        },
-        desiredCapabilities: {
-          username: username,
-          accessKey: accessKey,
-          browserName: 'firefox',
-          platform: 'macOS 10.13',
-          version: "latest",
-          "sauce:options": {
-            }
+          }
         }
       },
     }
