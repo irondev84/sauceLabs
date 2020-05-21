@@ -14,7 +14,8 @@ module.exports = {
     done()
   },
 
-  afterEach : function(done) {
+  afterEach : function(browser,done) {
+    if(this.environment == 'saucelabs') browser.CustomSauceLabsEnd()
     console.log('Closing down... afterEach');
     done()
   },

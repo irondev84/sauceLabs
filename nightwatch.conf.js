@@ -5,7 +5,7 @@ const argv = minimist(process.argv)
 const workersNum = argv['workers'] || 1
 
 const username = process.env.SAUCE_USERNAME
-const accessKey = process.env.SAUCE_ACCESSKEY
+const accessKey = process.env.SAUCE_ACCESS_KEY
 
 module.exports = {
     detailed_output: true,
@@ -65,12 +65,16 @@ module.exports = {
           on_failure: true,
           on_error: true
         },
-         
-        proxy: {
-          host: "localhost",
-          port: "3128",
-          protocol: "http"
+        globals: {
+          environment: 'saucelabs'
         },
+         
+        //for using proxy please uncomment proxy settings below
+        // proxy: {
+        //   host: "localhost",
+        //   port: "3128",
+        //   protocol: "http"
+        // },
 
         desiredCapabilities: {
           browserName: 'chrome',
